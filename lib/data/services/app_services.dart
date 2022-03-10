@@ -9,7 +9,7 @@ class AppServices {
   Future<String> getAppText() async {
     final lang = getApiLanguage();
 
-    final url = '$baseUrl/acf/v2/options?$lang';
+    final url = '$baseUrl/acf/v3/options/options?$lang';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       return response.body;

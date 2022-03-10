@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/src/flutter_local_notifications_plugin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hospital25/core/utilities/hydrated_storage.dart';
 import 'package:hospital25/data/repositories/app_repository.dart';
@@ -18,13 +19,16 @@ import 'package:hospital25/logic/cubit/theme/theme_cubit.dart';
 import 'package:hospital25/logic/debug/app_bloc_observer.dart';
 import 'package:hospital25/my_app.dart';
 
+import 'data/services/notification_service.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
   final connectivity = Connectivity();
   await initHydratedStorage();
-
+  await NotificationService().init(); //
+  NotificationService().requestIOSPermissions();
   // await hydratedStorage.clear();
   Bloc.observer = AppBlocObserver();
   runApp(

@@ -37,6 +37,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       emit(RegistrationFailed(error: LanguageAr().connectionFailed));
     } else {
       try {
+
         final email = '$phone@hospital25.com';
 
         final firebaseUser =
