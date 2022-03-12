@@ -31,14 +31,4 @@ class AppRepository {
     }
   }
 
-  Future getAllProducts() async {
-    try{
-      final result = await _apiServices.getAllProducts();
-      final productsJson = json.decode(result);
-      final products = productsJson.map((e) => ProductsListModel.fromJson(e)).toList();
-      return products;
-    } catch(e){
-      rethrow;
-    }
-  }
 }

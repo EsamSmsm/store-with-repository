@@ -27,7 +27,6 @@ class AppCubit extends Cubit<AppState> {
   static AppText? appText;
   static String? currency = 'EGP';
   static String? appTextErrorMsg;
-  static List<dynamic>? products;
 
   Future<void> getAppText(BuildContext context) async {
     emit(ChangeLanguageLoading());
@@ -64,19 +63,4 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  Future<void> getAllProducts()async{
-    emit(GetAllProductsLoading());
-    if (connection.state is InternetConnectionFail) {
-      emit(GetAllProductsFailed(error: LanguageAr().connectionFailed));
-    } else {
-      try {
-        products = await appRepo.getAllProducts() as List;
-        print(products![0].name);
-        emit(GetAllProductsSuccess());
-      } catch (e) {
-        print('get products error: $e');
-        emit(GetAllProductsFailed(error: e.toString()));
-      }
-    }
-  }
 }

@@ -15,11 +15,14 @@ import 'package:hospital25/logic/bloc/firebaseAuth/firebase_auth_bloc.dart';
 import 'package:hospital25/logic/cubit/app/app_cubit.dart';
 import 'package:hospital25/logic/cubit/customer/customer_cubit.dart';
 import 'package:hospital25/logic/cubit/internet/internet_cubit.dart';
+import 'package:hospital25/logic/cubit/product/product_cubit.dart';
 import 'package:hospital25/logic/cubit/theme/theme_cubit.dart';
 import 'package:hospital25/logic/debug/app_bloc_observer.dart';
 import 'package:hospital25/my_app.dart';
 
+import 'data/repositories/products_repository.dart';
 import 'data/services/notification_service.dart';
+import 'data/services/products_services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +48,7 @@ class InitialApp extends StatelessWidget {
   final authServices = AuthenticationServices();
   final firebaseServices = FirebaseAuthenticationServices();
   final appServices = AppServices();
+  final productsServices = ProductsServices();
   final Connectivity connectivity;
 
   @override
@@ -59,6 +63,9 @@ class InitialApp extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => AppRepository(appServices),
+        ),
+        RepositoryProvider(
+          create: (context) => ProductsRepository(productsServices),
         ),
       ],
       child: MultiBlocProvider(
@@ -92,7 +99,12 @@ class InitialApp extends StatelessWidget {
               RepositoryProvider.of<CustomerRepository>(context),
               BlocProvider.of<InternetCubit>(context),
             ),
-          )
+          ),
+          BlocProvider(
+              create: (context) => ProductCubit(
+                    BlocProvider.of<InternetCubit>(context),
+                    RepositoryProvider.of<ProductsRepository>(context),
+                  )),
         ],
         child: ScreenUtilInit(
           designSize: const Size(428, 926),

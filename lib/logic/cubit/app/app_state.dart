@@ -31,15 +31,4 @@ class ChangeLanguageFailed extends AppState {
   });
 }
 
-class GetAllProductsLoading extends AppState {}
-
-class GetAllProductsSuccess extends AppState {}
-
-class GetAllProductsFailed extends AppState {
-  final String error;
-  const GetAllProductsFailed({
-    required this.error,
-  });
-}
-
 

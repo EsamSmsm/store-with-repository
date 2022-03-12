@@ -1,29 +1,19 @@
 import 'dart:async';
 
 import 'package:hospital25/core/constants/app_config.dart';
+import 'package:hospital25/core/constants/constants.dart';
 import 'package:hospital25/core/languages/languages_cache.dart.dart';
 import 'package:hospital25/core/utilities/oauth1.dart';
 import 'package:http/http.dart' as http;
 
-import '../../core/constants/constants.dart';
 
-class AppServices {
-  Future<String> getAppText() async {
+
+class ProductsServices{
+  Future<String> getAllProducts()async{
     final lang = getApiLanguage();
-
-    final url = '$baseUrl/acf/v3/options/options?$lang';
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      return response.body;
-    } else {
-      print(response.reasonPhrase);
-      throw response.body;
-    }
-  }
-
-  Future<String> getAppCurrency() async {
-    final lang = getApiLanguage();
-    final url = '$baseUrl/wc/v3/settings/general/woocommerce_currency?$lang';
+    const fields = 'id,name,description,price,regular_price,sale_price,categories,images';
+    final query = '$lang&$fieldsTxt:$fields';
+    final url = '$baseUrl/wc/v3/products?$query';
     final oAuth = getOAuthURL('GET', url);
     final response = await http.get(Uri.parse(oAuth));
     if (response.statusCode == 200) {
@@ -33,6 +23,4 @@ class AppServices {
       throw response.body;
     }
   }
-
-
 }

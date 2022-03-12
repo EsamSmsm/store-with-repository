@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hospital25/core/constants/app_config.dart';
 import 'package:hospital25/logic/bloc/firebaseAuth/firebase_auth_bloc.dart';
+import 'package:hospital25/logic/cubit/product/product_cubit.dart';
 import 'package:hospital25/presentation/routers/app_router.dart';
 
 import '../../routers/import_helper.dart';
@@ -29,9 +30,9 @@ class HomeLayout extends StatelessWidget {
         },
         ),
       ),
-      body: BlocBuilder<AppCubit, AppState>(
+      body: BlocBuilder<ProductCubit, ProductState>(
         builder: (context, state) {
-          AppCubit cubit = AppCubit.get(context);
+          final ProductCubit cubit = ProductCubit.get(context);
           return Center(
             child: TextButton(
               onPressed: () {
