@@ -9,6 +9,9 @@ import 'package:hospital25/data/repositories/app_repository.dart';
 import 'package:hospital25/logic/cubit/internet/internet_cubit.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/languages/language_ar.dart';
+import '../../../data/models/products_list_model.dart';
+
 part 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -24,6 +27,7 @@ class AppCubit extends Cubit<AppState> {
   static AppText? appText;
   static String? currency = 'EGP';
   static String? appTextErrorMsg;
+  static List<dynamic>? products;
 
   Future<void> getAppText(BuildContext context) async {
     emit(ChangeLanguageLoading());
@@ -56,6 +60,22 @@ class AppCubit extends Cubit<AppState> {
       } catch (e) {
         print(' getAppCurrency Error: $e');
         emit(ChangeLanguageFailed(error: e.toString()));
+      }
+    }
+  }
+
+  Future<void> getAllProducts()async{
+    emit(GetAllProductsLoading());
+    if (connection.state is InternetConnectionFail) {
+      emit(GetAllProductsFailed(error: LanguageAr().connectionFailed));
+    } else {
+      try {
+        products = await appRepo.getAllProducts() as List;
+        print(products![0].name);
+        emit(GetAllProductsSuccess());
+      } catch (e) {
+        print('get products error: $e');
+        emit(GetAllProductsFailed(error: e.toString()));
       }
     }
   }
