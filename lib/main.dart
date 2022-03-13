@@ -8,12 +8,14 @@ import 'package:hospital25/core/utilities/hydrated_storage.dart';
 import 'package:hospital25/data/repositories/app_repository.dart';
 import 'package:hospital25/data/repositories/customer_repository.dart';
 import 'package:hospital25/data/repositories/firebase_repository.dart';
+import 'package:hospital25/data/repositories/information_repository.dart';
 import 'package:hospital25/data/services/app_services.dart';
 import 'package:hospital25/data/services/authentication_services.dart';
 import 'package:hospital25/data/services/firebase_auth_services.dart';
 import 'package:hospital25/logic/bloc/firebaseAuth/firebase_auth_bloc.dart';
 import 'package:hospital25/logic/cubit/app/app_cubit.dart';
 import 'package:hospital25/logic/cubit/customer/customer_cubit.dart';
+import 'package:hospital25/logic/cubit/information/information_cubit.dart';
 import 'package:hospital25/logic/cubit/internet/internet_cubit.dart';
 import 'package:hospital25/logic/cubit/product/product_cubit.dart';
 import 'package:hospital25/logic/cubit/theme/theme_cubit.dart';
@@ -21,6 +23,7 @@ import 'package:hospital25/logic/debug/app_bloc_observer.dart';
 import 'package:hospital25/my_app.dart';
 
 import 'data/repositories/products_repository.dart';
+import 'data/services/information_services.dart';
 import 'data/services/notification_service.dart';
 import 'data/services/products_services.dart';
 
@@ -49,6 +52,7 @@ class InitialApp extends StatelessWidget {
   final firebaseServices = FirebaseAuthenticationServices();
   final appServices = AppServices();
   final productsServices = ProductsServices();
+  final informationServices = InformationServices();
   final Connectivity connectivity;
 
   @override
@@ -66,6 +70,9 @@ class InitialApp extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => ProductsRepository(productsServices),
+        ),
+        RepositoryProvider(
+          create: (context) => InformationRepository(informationServices),
         ),
       ],
       child: MultiBlocProvider(
@@ -105,6 +112,11 @@ class InitialApp extends StatelessWidget {
                     BlocProvider.of<InternetCubit>(context),
                     RepositoryProvider.of<ProductsRepository>(context),
                   )),
+          BlocProvider(
+              create: (context) => InformationCubit(
+                BlocProvider.of<InternetCubit>(context),
+                RepositoryProvider.of<InformationRepository>(context),
+              )),
         ],
         child: ScreenUtilInit(
           designSize: const Size(428, 926),

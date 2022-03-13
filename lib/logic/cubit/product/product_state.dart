@@ -15,3 +15,14 @@ class GetAllProductsFailed extends ProductState {
   GetAllProductsFailed({required this.error});
 
 }
+
+class GetCartLoading extends ProductState {}
+
+class GetCartSuccess extends ProductState {}
+
+class GetCartFailed extends ProductState {
+  final String error;
+
+  GetCartFailed({required this.error});
+
+}
