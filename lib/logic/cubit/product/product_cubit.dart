@@ -38,14 +38,14 @@ class ProductCubit extends Cubit<ProductState> {
     if (connection.state is InternetConnectionFail) {
       emit(GetCartFailed(error: LanguageAr().connectionFailed));
     } else {
-      // try {
+      try {
         cart = await productsRepo.getCart();
         print(cart!.items[0].name);
         emit(GetCartSuccess());
-      // } catch (e) {
-      //   print('get products error: $e');
-      //   emit(GetCartFailed(error: e.toString()));
-      // }
+      } catch (e) {
+        print('get products error: $e');
+        emit(GetCartFailed(error: e.toString()));
+      }
     }
   }
 }

@@ -437,56 +437,56 @@ class RawPrices {
 class Totals {
   Totals({
     required this.lineSubtotal,
-    // required this.lineSubtotalTax,
+    required this.lineSubtotalTax,
     required this.lineTotal,
-    // required this.lineTotalTax,
-    // required this.currencyCode,
-    // required this.currencySymbol,
+    required this.lineTotalTax,
+    required this.currencyCode,
+    required this.currencySymbol,
     required this.currencyMinorUnit,
-    // required this.currencyDecimalSeparator,
-    // required this.currencyThousandSeparator,
-    // required this.currencyPrefix,
-    // required this.currencySuffix,
+    required this.currencyDecimalSeparator,
+    required this.currencyThousandSeparator,
+    required this.currencyPrefix,
+    required this.currencySuffix,
   });
   late final String? lineSubtotal;
-  // late final String? lineSubtotalTax;
+  late final String? lineSubtotalTax;
   late final String? lineTotal;
-  // late final String? lineTotalTax;
-  // late final String? currencyCode;
-  // late final String? currencySymbol;
+  late final String? lineTotalTax;
+  late final String? currencyCode;
+  late final String? currencySymbol;
   late final int? currencyMinorUnit;
-  // late final String? currencyDecimalSeparator;
-  // late final String? currencyThousandSeparator;
-  // late final String? currencyPrefix;
-  // late final String? currencySuffix;
+  late final String? currencyDecimalSeparator;
+  late final String? currencyThousandSeparator;
+  late final String? currencyPrefix;
+  late final String? currencySuffix;
 
   Totals.fromJson(dynamic json){
-    lineSubtotal = json['line_subtotal']as String;
-    // lineSubtotalTax = json['line_subtotal_tax']as String;
-    lineTotal = json['line_total']as String;
-    // lineTotalTax = json['line_total_tax']as String;
-    // currencyCode = json['currency_code']as String;
-    // currencySymbol = json['currency_symbol']as String;
-    currencyMinorUnit = json['currency_minor_unit']as int;
-    // currencyDecimalSeparator = json['currency_decimal_separator']as String;
-    // currencyThousandSeparator = json['currency_thousand_separator']as String;
-    // currencyPrefix = json['currency_prefix']as String;
-    // currencySuffix = json['currency_suffix'].toString();
+    lineSubtotal = json['line_subtotal']as String?;
+    lineSubtotalTax = json['line_subtotal_tax']as String?;
+    lineTotal = json['line_total']as String?;
+    lineTotalTax = json['line_total_tax']as String?;
+    currencyCode = json['currency_code']as String?;
+    currencySymbol = json['currency_symbol']as String?;
+    currencyMinorUnit = json['currency_minor_unit']as int?;
+    currencyDecimalSeparator = json['currency_decimal_separator']as String?;
+    currencyThousandSeparator = json['currency_thousand_separator']as String?;
+    currencyPrefix = json['currency_prefix']as String?;
+    currencySuffix = json['currency_suffix'].toString();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['line_subtotal'] = lineSubtotal;
-    // _data['line_subtotal_tax'] = lineSubtotalTax;
+    _data['line_subtotal_tax'] = lineSubtotalTax;
     _data['line_total'] = lineTotal;
-    // _data['line_total_tax'] = lineTotalTax;
-    // _data['currency_code'] = currencyCode;
-    // _data['currency_symbol'] = currencySymbol;
+    _data['line_total_tax'] = lineTotalTax;
+    _data['currency_code'] = currencyCode;
+    _data['currency_symbol'] = currencySymbol;
     _data['currency_minor_unit'] = currencyMinorUnit;
-    // _data['currency_decimal_separator'] = currencyDecimalSeparator;
-    // _data['currency_thousand_separator'] = currencyThousandSeparator;
-    // _data['currency_prefix'] = currencyPrefix;
-    // _data['currency_suffix'] = currencySuffix;
+    _data['currency_decimal_separator'] = currencyDecimalSeparator;
+    _data['currency_thousand_separator'] = currencyThousandSeparator;
+    _data['currency_prefix'] = currencyPrefix;
+    _data['currency_suffix'] = currencySuffix;
     return _data;
   }
 }

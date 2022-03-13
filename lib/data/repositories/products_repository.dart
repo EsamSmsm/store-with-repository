@@ -27,7 +27,6 @@ class ProductsRepository{
     try{
       final result = await _productsServices.getCart();
       final cartJson = json.decode(result);
-      print("cart: ${cartJson['items'][0]['totals']}");
       final cart = CartModel.fromJson(cartJson);
       return cart;
     } catch(e){
