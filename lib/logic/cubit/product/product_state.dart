@@ -26,3 +26,14 @@ class GetCartFailed extends ProductState {
   GetCartFailed({required this.error});
 
 }
+
+class AddToCartLoading extends ProductState {}
+
+class AddToCartSuccess extends ProductState {}
+
+class AddToCartFailed extends ProductState {
+  final String error;
+
+  AddToCartFailed({required this.error});
+
+}

@@ -23,7 +23,6 @@ class NotificationService {
     //Initialization Settings for Android
     const AndroidInitializationSettings initializationSettingsAndroid =
     AndroidInitializationSettings('logo');
-
     //Initialization Settings for iOS
     const IOSInitializationSettings initializationSettingsIOS =
     IOSInitializationSettings(

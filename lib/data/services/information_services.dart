@@ -23,4 +23,17 @@ class InformationServices{
     }
   }
 
+  Future<String> getPaymentWays()async{
+    const fields = 'id,title,description,enabled';
+    const query = '$fieldsTxt:$fields';
+    const url = '$baseUrl/wc/v3/payment_gateways?$query';
+    final oAuth = getOAuthURL('GET', url);
+    final response = await http.get(Uri.parse(oAuth));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print(response.reasonPhrase);
+      throw response.body;
+    }
+  }
 }

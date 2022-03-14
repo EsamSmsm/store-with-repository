@@ -17,3 +17,13 @@ class GetSlideShowFailed extends InformationState{
 
   const GetSlideShowFailed({required this.error});
 }
+
+class GetPaymentWaysLoading extends InformationState{}
+
+class GetPaymentWaysSuccess extends InformationState{}
+
+class GetPaymentWaysFailed extends InformationState{
+  final String error;
+
+  const GetPaymentWaysFailed({required this.error});
+}

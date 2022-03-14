@@ -24,7 +24,7 @@ import 'package:hospital25/my_app.dart';
 
 import 'data/repositories/products_repository.dart';
 import 'data/services/information_services.dart';
-import 'data/services/notification_service.dart';
+import 'logic/debug/local_notification_service.dart';
 import 'data/services/products_services.dart';
 
 Future<void> main() async {
@@ -111,12 +111,14 @@ class InitialApp extends StatelessWidget {
               create: (context) => ProductCubit(
                     BlocProvider.of<InternetCubit>(context),
                     RepositoryProvider.of<ProductsRepository>(context),
-                  )),
+                  )..fetchData()
+          ),
           BlocProvider(
               create: (context) => InformationCubit(
                 BlocProvider.of<InternetCubit>(context),
                 RepositoryProvider.of<InformationRepository>(context),
-              )),
+              )..fetchData()
+          ),
         ],
         child: ScreenUtilInit(
           designSize: const Size(428, 926),

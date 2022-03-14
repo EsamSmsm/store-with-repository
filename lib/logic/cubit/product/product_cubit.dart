@@ -14,8 +14,8 @@ class ProductCubit extends Cubit<ProductState> {
 
   static ProductCubit get(BuildContext context) => BlocProvider.of(context);
 
-  static List<ProductsListModel>? products;
-  static CartModel? cart;
+   List<ProductsListModel>? products;
+   CartModel? cart;
 
   Future<void> getAllProducts()async{
     emit(GetAllProductsLoading());
@@ -40,12 +40,33 @@ class ProductCubit extends Cubit<ProductState> {
     } else {
       try {
         cart = await productsRepo.getCart();
-        print(cart!.items[0].name);
         emit(GetCartSuccess());
       } catch (e) {
-        print('get products error: $e');
+        print('get cart error: $e');
         emit(GetCartFailed(error: e.toString()));
       }
     }
   }
+
+  Future<void> addToCart({required String? id,required String? quantity})async{
+    emit(AddToCartLoading());
+    if (connection.state is InternetConnectionFail) {
+      emit(AddToCartFailed(error: LanguageAr().connectionFailed));
+    } else {
+      try {
+        cart = await productsRepo.addToCart(id: id, quantity: quantity);
+        print(cart!.items[1].quantity);
+        emit(AddToCartSuccess());
+      } catch (e) {
+        print('add to cart error: $e');
+        emit(AddToCartFailed(error: e.toString()));
+      }
+    }
+  }
+
+  void fetchData(){
+    getAllProducts();
+    getCart();
+  }
+  
 }

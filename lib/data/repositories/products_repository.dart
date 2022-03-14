@@ -34,4 +34,15 @@ class ProductsRepository{
     }
   }
 
+  Future<CartModel> addToCart({required String? id,required String? quantity})async{
+    try{
+      final result = await _productsServices.addToCart(id: id, quantity: quantity);
+      final cartJson = json.decode(result);
+      final cart = CartModel.fromJson(cartJson);
+      return cart;
+    } catch(e){
+      rethrow;
+    }
+  }
+
 }
