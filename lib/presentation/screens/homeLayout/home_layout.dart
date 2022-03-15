@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:hospital25/core/constants/app_config.dart';
 import 'package:hospital25/core/constants/dimensions.dart';
 import 'package:hospital25/core/theme/colors.dart';
@@ -65,9 +64,9 @@ class HomeLayout extends StatelessWidget {
        ),
         body: TabBarView(
           children: [
-            HomeScreen(),
-            HomeScreen(),
-            BlogsScreen(),
+            const HomeScreen(),
+            const HomeScreen(),
+            const BlogsScreen(),
             ProfileScreen(),
           ],
         ),
