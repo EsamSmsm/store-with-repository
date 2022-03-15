@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/languages/language_ar.dart';
 import '../../../data/models/products_list_model.dart';
+import '../../../presentation/screens/home_screen.dart';
 
 part 'app_state.dart';
 
@@ -27,6 +28,20 @@ class AppCubit extends Cubit<AppState> {
   static AppText? appText;
   static String? currency = 'EGP';
   static String? appTextErrorMsg;
+
+
+  List<Widget> screens = [
+    const HomeScreen(),
+    Container(),
+    Container(),
+    Container(),
+  ];
+
+  int selectedIndex = 0;
+  void changeNavBar(int value) {
+    selectedIndex = value;
+    emit(ChangeNavBarState());
+  }
 
   Future<void> getAppText(BuildContext context) async {
     emit(ChangeLanguageLoading());

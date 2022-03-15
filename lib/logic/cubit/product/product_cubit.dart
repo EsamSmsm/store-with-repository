@@ -1,9 +1,10 @@
 import 'package:hospital25/core/languages/language_ar.dart';
+import 'package:hospital25/data/models/address_model.dart';
 import 'package:hospital25/data/models/cart_model.dart';
+import 'package:hospital25/data/models/order_model.dart';
 import 'package:hospital25/data/models/products_list_model.dart';
 import 'package:hospital25/data/repositories/products_repository.dart';
 import 'package:hospital25/presentation/routers/import_helper.dart';
-
 
 part 'product_state.dart';
 
@@ -14,10 +15,11 @@ class ProductCubit extends Cubit<ProductState> {
 
   static ProductCubit get(BuildContext context) => BlocProvider.of(context);
 
-   List<ProductsListModel>? products;
-   CartModel? cart;
+  List<ProductsListModel>? products;
+  CartModel? cart;
+  OrderModel? order;
 
-  Future<void> getAllProducts()async{
+  Future<void> getAllProducts() async {
     emit(GetAllProductsLoading());
     if (connection.state is InternetConnectionFail) {
       emit(GetAllProductsFailed(error: LanguageAr().connectionFailed));
@@ -33,7 +35,7 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future<void> getCart()async{
+  Future<void> getCart() async {
     emit(GetCartLoading());
     if (connection.state is InternetConnectionFail) {
       emit(GetCartFailed(error: LanguageAr().connectionFailed));
@@ -48,7 +50,8 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future<void> addToCart({required String? id,required String? quantity})async{
+  Future<void> addToCart(
+      {required String? id, required String? quantity}) async {
     emit(AddToCartLoading());
     if (connection.state is InternetConnectionFail) {
       emit(AddToCartFailed(error: LanguageAr().connectionFailed));
@@ -64,9 +67,38 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  void fetchData(){
+  Future<void> checkOut({
+    required String? id,
+    required AddressModel billing,
+    required AddressModel shipping,
+    required String paymentMethod,
+    required String paymentTitle,
+    required String customerId,
+    required CartModel cart,
+  }) async {
+    emit(CheckOutLoading());
+    if (connection.state is InternetConnectionFail) {
+      emit(CheckOutFailed(error: LanguageAr().connectionFailed));
+    } else {
+      try {
+        order = await productsRepo.checkOut(
+            id: id,
+            billing: billing,
+            shipping: shipping,
+            paymentMethod: paymentMethod,
+            paymentTitle: paymentTitle,
+            customerId: customerId,
+            cart: cart);
+        emit(CheckOutSuccess());
+      } catch (e) {
+        print('Checkout error: $e');
+        emit(CheckOutFailed(error: e.toString()));
+      }
+    }
+  }
+
+  void fetchData() {
     getAllProducts();
     getCart();
   }
-  
 }

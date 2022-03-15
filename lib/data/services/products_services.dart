@@ -7,6 +7,8 @@ import 'package:hospital25/core/utilities/hydrated_storage.dart';
 import 'package:hospital25/core/utilities/oauth1.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/customer_model.dart';
+
 
 
 class ProductsServices{
@@ -56,48 +58,25 @@ class ProductsServices{
     }
   }
 
-  Future<String> checkOut({required String? id,required String? quantity})async{
+  Future<String> checkOut({
+  required String billing,
+  required String shipping,
+  required String paymentMethod,
+  required String paymentTitle,
+  required String customerId,
+  required String cart,
+  })async{
     const url = '$baseUrl/wc/v3/orders';
     final oAuth = getOAuthURL('GET', url);
     final response = await http.post(Uri.parse(oAuth),
     body: {
-      "payment_method": "bacs",
-      "payment_method_title": "Direct Bank Transfer",
+      "payment_method": paymentMethod,
+      "payment_method_title": paymentTitle,
       "set_paid": true,
-      "customer_id": "2",
-      "billing": {
-        "first_name": "John",
-        "last_name": "Doe",
-        "address_1": "969 Market",
-        "address_2": "",
-        "city": "San Francisco",
-        "state": "CA",
-        "postcode": "94103",
-        "country": "US",
-        "email": "john.doe@example.com",
-        "phone": "(555) 555-5555"
-      },
-      "shipping": {
-        "first_name": "John",
-        "last_name": "Doe",
-        "address_1": "969 Market",
-        "address_2": "",
-        "city": "San Francisco",
-        "state": "CA",
-        "postcode": "94103",
-        "country": "US"
-      },
-      "line_items": [
-        {
-          "product_id": 118,
-          "quantity": 4,
-          "subtotal": "400.00",
-          "subtotal_tax": "0.00",
-          "total": "400.00",
-          "total_tax": "0.00"
-        }
-
-      ],
+      "customer_id": customerId,
+      "billing":billing,
+      "shipping":shipping,
+      "line_items": cart,
       "shipping_lines": [
         {
           "method_id": "flat_rate",

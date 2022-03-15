@@ -20,6 +20,8 @@ class AppFailed extends AppState {
   });
 }
 
+class ChangeNavBarState extends AppState {}
+
 class ChangeLanguageLoading extends AppState {}
 
 class ChangeLanguageSuccess extends AppState {}

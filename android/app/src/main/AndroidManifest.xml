@@ -4,6 +4,8 @@
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
     </queries>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
    <application
         android:label="hospital25"
         android:name="${applicationName}"

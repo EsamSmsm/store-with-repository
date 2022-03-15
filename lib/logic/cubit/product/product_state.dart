@@ -37,3 +37,14 @@ class AddToCartFailed extends ProductState {
   AddToCartFailed({required this.error});
 
 }
+
+class CheckOutLoading extends ProductState {}
+
+class CheckOutSuccess extends ProductState {}
+
+class CheckOutFailed extends ProductState {
+  final String error;
+
+  CheckOutFailed({required this.error});
+
+}

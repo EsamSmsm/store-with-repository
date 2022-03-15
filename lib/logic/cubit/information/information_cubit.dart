@@ -15,8 +15,8 @@ class InformationCubit extends Cubit<InformationState> {
 
   static InformationCubit get(BuildContext context) => BlocProvider.of(context);
 
-  static List<SlideshowModel>? slides;
-  static List<PaymentsModel>? paymentWays;
+   List<SlideshowModel>? slides;
+   List<PaymentsModel>? paymentWays;
 
   Future<void> getSlideShow()async{
     emit(GetSlideShowLoading());

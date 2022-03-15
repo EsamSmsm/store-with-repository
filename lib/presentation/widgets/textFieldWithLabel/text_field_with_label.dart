@@ -173,7 +173,8 @@ class UnderLineTextFieldWithLabel extends StatelessWidget {
       enabledBorder: inputBorder ??
           UnderlineInputBorder(
             borderSide: BorderSide(
-              color: Theme.of(context).cardColor.withOpacity(0.05),
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+              width: 1.5,
             ),
           ),
     );
