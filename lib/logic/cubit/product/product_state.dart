@@ -27,6 +27,17 @@ class GetCartFailed extends ProductState {
 
 }
 
+class DeleteCartLoading extends ProductState {}
+
+class DeleteCartSuccess extends ProductState {}
+
+class DeleteCartFailed extends ProductState {
+  final String error;
+
+  DeleteCartFailed({required this.error});
+
+}
+
 class AddToCartLoading extends ProductState {}
 
 class AddToCartSuccess extends ProductState {}

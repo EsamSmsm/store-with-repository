@@ -86,7 +86,7 @@ class ProfileForm extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 50.h,
-            backgroundImage: NetworkImage(FirebaseAuthBloc.customer!.avatarUrl),
+            backgroundImage: NetworkImage(FirebaseAuthBloc.user!.avatarUrl.toString()),
           ),
           SizedBox(
             height: vLargePadding,

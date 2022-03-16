@@ -50,20 +50,45 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
+  Future<void> deleteCart() async {
+    emit(DeleteCartLoading());
+    if (connection.state is InternetConnectionFail) {
+      emit(DeleteCartFailed(error: LanguageAr().connectionFailed));
+    } else {
+      try {
+        final String result = await productsRepo.deleteCart();
+        result == '200'?emit(DeleteCartSuccess()):emit(DeleteCartFailed(error: 'get cart error: $result'));
+      } catch (e) {
+        print('get cart error: $e');
+        emit(DeleteCartFailed(error: e.toString()));
+      }
+    }
+  }
+
   Future<void> addToCart(
       {required String? id, required String? quantity}) async {
     emit(AddToCartLoading());
     if (connection.state is InternetConnectionFail) {
       emit(AddToCartFailed(error: LanguageAr().connectionFailed));
     } else {
-      try {
-        cart = await productsRepo.addToCart(id: id, quantity: quantity);
-        print(cart!.items[1].quantity);
-        emit(AddToCartSuccess());
-      } catch (e) {
-        print('add to cart error: $e');
-        emit(AddToCartFailed(error: e.toString()));
-      }
+      deleteCart().then((value) async {
+        try {
+          cart = await productsRepo.addToCart(id: id, quantity: quantity);
+          print(cart!.totals!.totalPrice);
+          emit(AddToCartSuccess());
+        } catch (e) {
+          print('add to cart error: $e');
+          emit(AddToCartFailed(error: e.toString()));
+        }
+      });
+      // try {
+      //   cart = await productsRepo.addToCart(id: id, quantity: quantity);
+      //   print(cart!.totals!.totalPrice);
+      //   emit(AddToCartSuccess());
+      // } catch (e) {
+      //   print('add to cart error: $e');
+      //   emit(AddToCartFailed(error: e.toString()));
+      // }
     }
   }
 
@@ -99,6 +124,6 @@ class ProductCubit extends Cubit<ProductState> {
 
   void fetchData() {
     getAllProducts();
-    getCart();
+    // getCart();
   }
 }

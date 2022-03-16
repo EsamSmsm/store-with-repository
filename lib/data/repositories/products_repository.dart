@@ -37,6 +37,15 @@ class ProductsRepository {
     }
   }
 
+  Future<String> deleteCart() async {
+    try {
+      final result = await _productsServices.deleteCart();
+      return result;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<CartModel> addToCart(
       {required String? id, required String? quantity}) async {
     try {

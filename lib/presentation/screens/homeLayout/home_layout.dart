@@ -10,8 +10,9 @@ import 'package:hospital25/presentation/screens/home_screen.dart';
 import 'package:hospital25/presentation/screens/profile_screen.dart';
 import 'package:hospital25/presentation/widgets/components/components.dart';
 
-import '../../blogs_screen.dart';
+import '../blogs_screen.dart';
 import '../../routers/import_helper.dart';
+import '../products_screen.dart';
 
 TabController? tabController;
 GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
@@ -47,7 +48,7 @@ class HomeLayout extends StatelessWidget {
                  icon: Icon(CupertinoIcons.home,size: 20.h),
                ),
                Tab(
-                 text: "Cart",
+                 text: "products",
                  icon: Icon(CupertinoIcons.shopping_cart,size: 20.h),
                ),
                Tab(
@@ -65,7 +66,7 @@ class HomeLayout extends StatelessWidget {
         body: TabBarView(
           children: [
             const HomeScreen(),
-            const HomeScreen(),
+             const ProductsScreen(),
             const BlogsScreen(),
             ProfileScreen(),
           ],

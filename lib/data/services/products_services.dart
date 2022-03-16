@@ -41,6 +41,19 @@ class ProductsServices{
     }
   }
 
+  Future<String> deleteCart()async{
+    const url = '$baseUrl/wc/store/cart/items';
+    final token  = hydratedStorage.read(bearerTxt);
+    final headers = {authorizationTxt: 'Bearer $token'};
+    final response = await http.delete(Uri.parse(url),headers: headers);
+    if (response.statusCode == 200) {
+      return response.statusCode.toString();
+    } else {
+      print(response.reasonPhrase);
+      throw response.body;
+    }
+  }
+
   Future<String> addToCart({required String? id,required String? quantity})async{
     const url = '$baseUrl/wc/store/cart/add-item';
     final token  = hydratedStorage.read(bearerTxt);

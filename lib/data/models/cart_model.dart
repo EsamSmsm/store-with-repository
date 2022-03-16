@@ -1,3 +1,5 @@
+import 'package:hospital25/presentation/routers/import_helper.dart';
+
 class CartModel {
   CartModel({
     required this.coupons,
@@ -27,7 +29,7 @@ class CartModel {
   late final bool needsShipping;
   late final bool hasCalculatedShipping;
   late final List<dynamic> fees;
-  late final Totals? totals;
+  late final SumTotals? totals;
   late final List<dynamic> errors;
   late final List<String> paymentRequirements;
   late final Extensions extensions;
@@ -44,7 +46,7 @@ class CartModel {
     needsShipping = json['needs_shipping']as bool;
     hasCalculatedShipping = json['has_calculated_shipping']as bool;
     fees = List.castFrom<dynamic, dynamic>(json['fees']as List<dynamic>);
-    totals = Totals?.fromJson(json['totals']as Map<String, dynamic>);
+    totals = SumTotals?.fromJson(json['totals']as Map<String, dynamic>);
     errors = List.castFrom<dynamic, dynamic>(json['errors']as List<dynamic>);
     paymentRequirements = List.castFrom<dynamic, String>(json['payment_requirements']as List<dynamic>);
     extensions = Extensions.fromJson(json['extensions']as Map<String, dynamic>);
@@ -480,6 +482,91 @@ class Totals {
     _data['line_subtotal_tax'] = lineSubtotalTax;
     _data['line_total'] = lineTotal;
     _data['line_total_tax'] = lineTotalTax;
+    _data['currency_code'] = currencyCode;
+    _data['currency_symbol'] = currencySymbol;
+    _data['currency_minor_unit'] = currencyMinorUnit;
+    _data['currency_decimal_separator'] = currencyDecimalSeparator;
+    _data['currency_thousand_separator'] = currencyThousandSeparator;
+    _data['currency_prefix'] = currencyPrefix;
+    _data['currency_suffix'] = currencySuffix;
+    return _data;
+  }
+}
+
+class SumTotals {
+  SumTotals({
+    required this.totalItems,
+    required this.totalItemsTax,
+    required this.totalFees,
+    required this.totalFeesTax,
+    required this.totalDiscount,
+    required this.totalDiscountTax,
+    this.totalShipping,
+    this.totalShippingTax,
+    required this.totalPrice,
+    required this.totalTax,
+    required this.taxLines,
+    required this.currencyCode,
+    required this.currencySymbol,
+    required this.currencyMinorUnit,
+    required this.currencyDecimalSeparator,
+    required this.currencyThousandSeparator,
+    required this.currencyPrefix,
+    required this.currencySuffix,
+  });
+  late final String totalItems;
+  late final String totalItemsTax;
+  late final String totalFees;
+  late final String totalFeesTax;
+  late final String totalDiscount;
+  late final String totalDiscountTax;
+  late final Null totalShipping;
+  late final Null totalShippingTax;
+  late final String totalPrice;
+  late final String totalTax;
+  late final List<dynamic> taxLines;
+  late final String currencyCode;
+  late final String currencySymbol;
+  late final int currencyMinorUnit;
+  late final String currencyDecimalSeparator;
+  late final String currencyThousandSeparator;
+  late final String currencyPrefix;
+  late final String currencySuffix;
+
+  SumTotals.fromJson(Map<String, dynamic> json){
+    totalItems = json['total_items'] as String;
+    totalItemsTax = json['total_items_tax']as String;
+    totalFees = json['total_fees']as String;
+    totalFeesTax = json['total_fees_tax']as String;
+    totalDiscount = json['total_discount']as String;
+    totalDiscountTax = json['total_discount_tax']as String;
+    totalShipping = null;
+    totalShippingTax = null;
+    totalPrice = json['total_price']as String;
+    totalTax = json['total_tax']as String;
+    taxLines = List.castFrom<dynamic, dynamic>(json['tax_lines']as List);
+    currencyCode = json['currency_code']as String;
+    currencySymbol = json['currency_symbol']as String;
+    currencyMinorUnit = json['currency_minor_unit']as int;
+    currencyDecimalSeparator = json['currency_decimal_separator']as String;
+    currencyThousandSeparator = json['currency_thousand_separator']as String;
+    currencyPrefix = json['currency_prefix']as String;
+    currencySuffix = json['currency_suffix']as String;
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['total_items'] = totalItems;
+    _data['total_items_tax'] = totalItemsTax;
+    _data['total_fees'] = totalFees;
+    _data['total_fees_tax'] = totalFeesTax;
+    _data['total_discount'] = totalDiscount;
+    _data['total_discount_tax'] = totalDiscountTax;
+    _data['total_shipping'] = totalShipping;
+    _data['total_shipping_tax'] = totalShippingTax;
+    _data['total_price'] = totalPrice;
+    _data['total_tax'] = totalTax;
+    _data['tax_lines'] = taxLines;
     _data['currency_code'] = currencyCode;
     _data['currency_symbol'] = currencySymbol;
     _data['currency_minor_unit'] = currencyMinorUnit;
