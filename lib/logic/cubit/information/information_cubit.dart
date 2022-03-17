@@ -34,6 +34,12 @@ class InformationCubit extends Cubit<InformationState> {
     }
   }
 
+  int selectedMethod = 0 ;
+  void changeSelectedMethod(int index)  {
+    selectedMethod = index;
+    emit(ChangePaymentMethod());
+    emit(Refresh());
+  }
   Future<void> getPaymentWays()async{
     emit(GetPaymentWaysLoading());
     if (connection.state is InternetConnectionFail) {

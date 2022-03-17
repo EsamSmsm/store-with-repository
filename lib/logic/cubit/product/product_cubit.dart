@@ -92,29 +92,42 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
+  List lineItems = [];
+  void fillCart(){
+    for (final item in cart!.items) {
+      print (item.name);
+      lineItems.add({
+        "product_id": item.id,
+        "quantity": item.quantity,
+        "subtotal": item.totals!.lineSubtotal,
+        "subtotal_tax": item.totals!.lineSubtotalTax,
+        "total": item.totals!.lineTotal,
+        "total_tax": item.totals!.lineTotalTax
+      });
+    }
+  }
   Future<void> checkOut({
-    required String? id,
     required AddressModel billing,
     required AddressModel shipping,
     required String paymentMethod,
     required String paymentTitle,
     required String customerId,
-    required CartModel cart,
   }) async {
     emit(CheckOutLoading());
     if (connection.state is InternetConnectionFail) {
       emit(CheckOutFailed(error: LanguageAr().connectionFailed));
+
     } else {
       try {
         order = await productsRepo.checkOut(
-            id: id,
             billing: billing,
             shipping: shipping,
             paymentMethod: paymentMethod,
             paymentTitle: paymentTitle,
             customerId: customerId,
-            cart: cart);
-        emit(CheckOutSuccess());
+            cart: lineItems);
+        print(order!.number);
+        emit(CheckOutSuccess(order!));
       } catch (e) {
         print('Checkout error: $e');
         emit(CheckOutFailed(error: e.toString()));

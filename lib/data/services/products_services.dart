@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:hospital25/core/constants/app_config.dart';
 import 'package:hospital25/core/constants/constants.dart';
@@ -72,17 +73,19 @@ class ProductsServices{
   }
 
   Future<String> checkOut({
-  required String billing,
-  required String shipping,
+  required Map<String,dynamic> billing,
+  required Map<String,dynamic> shipping,
   required String paymentMethod,
   required String paymentTitle,
   required String customerId,
-  required String cart,
+  required List<dynamic> cart,
   })async{
     const url = '$baseUrl/wc/v3/orders';
-    final oAuth = getOAuthURL('GET', url);
-    final response = await http.post(Uri.parse(oAuth),
-    body: {
+    final oAuth = getOAuthURL('POST', url);
+    print("billing:$billing");
+    print("shipping:$shipping");
+    print("line_items: $cart");
+    Map data ={
       "payment_method": paymentMethod,
       "payment_method_title": paymentTitle,
       "set_paid": true,
@@ -97,7 +100,14 @@ class ProductsServices{
           "total": "10.00"
         }
       ]
-    });
+    };
+    final body = jsonEncode(data);
+    final response = await http.post(Uri.parse(oAuth),
+    headers:  {
+      contentTypeTxt: contentType,
+    },
+    body: body
+    );
     if (response.statusCode == 201) {
       return response.body;
     } else {

@@ -35,8 +35,8 @@ class CheckOutScreen extends StatelessWidget {
       TextEditingController(text: FirebaseAuthBloc.customer!.billing.country);
   final _cityController =
       TextEditingController(text: FirebaseAuthBloc.customer!.billing.city);
-   // late CustomerModel customerModel;
-   CustomerModel? customerModel = FirebaseAuthBloc.customer;
+  // late CustomerModel customerModel;
+  CustomerModel? customerModel = FirebaseAuthBloc.customer;
   AddressModel? addressModel;
   @override
   Widget build(BuildContext context) {
@@ -73,6 +73,13 @@ class CheckOutScreen extends StatelessWidget {
                       child: FilledTextFieldWithLabel(
                         labelText: AppCubit.appText!.firstName,
                         requiredField: true,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return AppCubit.appText!.filedIsRequired;
+                          } else {
+                            return null;
+                          }
+                        },
                         controller: _firstNameController,
                       ),
                     ),
@@ -84,6 +91,13 @@ class CheckOutScreen extends StatelessWidget {
                         labelText: AppCubit.appText!.lastName,
                         requiredField: true,
                         controller: _lastNameController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return AppCubit.appText!.filedIsRequired;
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
                     ),
                   ],
@@ -104,6 +118,13 @@ class CheckOutScreen extends StatelessWidget {
                   requiredField: true,
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return AppCubit.appText!.filedIsRequired;
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 SizedBox(
                   height: vMediumPadding,
@@ -113,6 +134,13 @@ class CheckOutScreen extends StatelessWidget {
                   requiredField: true,
                   keyboardType: TextInputType.number,
                   controller: _postCodeController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return AppCubit.appText!.filedIsRequired;
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 SizedBox(
                   height: vMediumPadding,
@@ -121,6 +149,13 @@ class CheckOutScreen extends StatelessWidget {
                   labelText: AppCubit.appText!.countryRegion,
                   requiredField: true,
                   controller: _countryController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return AppCubit.appText!.filedIsRequired;
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 SizedBox(
                   height: vMediumPadding,
@@ -129,6 +164,13 @@ class CheckOutScreen extends StatelessWidget {
                   labelText: AppCubit.appText!.townCity,
                   requiredField: true,
                   controller: _cityController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return AppCubit.appText!.filedIsRequired;
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 SizedBox(
                   height: vMediumPadding,
@@ -137,21 +179,29 @@ class CheckOutScreen extends StatelessWidget {
                   labelText: AppCubit.appText!.location,
                   requiredField: true,
                   controller: _addressController,
-                  onSubmit: (value){},
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return AppCubit.appText!.filedIsRequired;
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 SizedBox(
                   height: vMediumPadding,
                 ),
                 BlocConsumer<CustomerCubit, CustomerState>(
                   listener: (context, state) {
-                    if(state is CustomerUpdateSuccess){
+                    if (state is CustomerUpdateSuccess) {
                       navigateTo(context, const PaymentDetailsScreen());
-                    }else if (state is CustomerUpdateFailed) {
-                      customSnackBar(context: context, message: 'failed update profile');
+                    } else if (state is CustomerUpdateFailed) {
+                      customSnackBar(
+                          context: context, message: 'failed update profile');
                     }
                   },
                   builder: (context, state) {
-                    final CustomerCubit customerCubit = CustomerCubit.get(context);
+                    final CustomerCubit customerCubit =
+                        CustomerCubit.get(context);
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: hMediumMargin),
                       child: DefaultButton(
@@ -160,6 +210,7 @@ class CheckOutScreen extends StatelessWidget {
                         borderRadius: smallRadius,
                         isLoading: state is CustomerUpdateLoading,
                         onPressed: () {
+                          ProductCubit.get(context).fillCart();
                           addressModel = customerModel!.billing.copyWith(
                             phone: _phoneController.text,
                             address1: _addressController.text,
@@ -170,9 +221,10 @@ class CheckOutScreen extends StatelessWidget {
                             lastName: _lastNameController.text,
                             postcode: _postCodeController.text,
                           );
-                          customerModel = FirebaseAuthBloc.customer!.copyWith(billing: addressModel);
+                          customerModel = FirebaseAuthBloc.customer!
+                              .copyWith(billing: addressModel);
                           print(addressModel!.postcode);
-                          if(_formKey.currentState!.validate()){
+                          if (_formKey.currentState!.validate()) {
                             customerCubit.updateCustomer(customerModel!);
                           }
                         },

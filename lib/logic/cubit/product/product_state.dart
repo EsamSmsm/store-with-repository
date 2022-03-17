@@ -51,7 +51,11 @@ class AddToCartFailed extends ProductState {
 
 class CheckOutLoading extends ProductState {}
 
-class CheckOutSuccess extends ProductState {}
+class CheckOutSuccess extends ProductState {
+  final OrderModel order;
+
+  CheckOutSuccess(this.order);
+}
 
 class CheckOutFailed extends ProductState {
   final String error;

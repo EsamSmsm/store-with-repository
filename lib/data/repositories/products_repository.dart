@@ -60,24 +60,23 @@ class ProductsRepository {
   }
 
   Future<OrderModel> checkOut(
-      {required String? id,
+      {
       required AddressModel billing,
       required AddressModel shipping,
       required String paymentMethod,
       required String paymentTitle,
       required String customerId,
-      required CartModel cart,
+      required List cart,
       }) async {
-    final billingJson = json.encode(billing.toMap(isBilling: true));
-    final shippingJson = json.encode(shipping.toMap(isBilling: false));
-    final cartJson = json.encode(cart.toJson());
+    final billingJson = billing.toMap(isBilling: true);
+    final shippingJson = shipping.toMap(isBilling: false);
     final result = await _productsServices.checkOut(
         billing: billingJson,
         shipping: shippingJson,
         paymentMethod: paymentMethod,
         paymentTitle: paymentTitle,
         customerId: customerId,
-        cart: cartJson,
+        cart: cart,
         );
     final orderJson = json.decode(result);
     final orders = OrderModel.fromJson(orderJson);
